@@ -12,4 +12,9 @@ export class PostService {
   async findAll(): Promise<Post[]> {
     return await this.postModel.find().exec();
   }
+
+  async findBySlug(slug: string): Promise<Post> {
+    const post = await this.postModel.findOne({ slug }).exec();
+    return post;
+  }
 }
