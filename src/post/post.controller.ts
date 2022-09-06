@@ -1,4 +1,6 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { NextFunction } from 'express';
+import { CreatePost } from './dto/create-post.dto';
 import { PostService } from './post.service';
 
 @Controller('post')
@@ -15,5 +17,10 @@ export class PostController {
   @Get('/getSlug')
   findBySlug(@Query('slug1') slug1: string) {
     return `provided slug is: ${slug1}`;
+  }
+
+  @Post('/create')
+  async create(@Body() createPost: CreatePost) {
+    return 'working on it';
   }
 }
