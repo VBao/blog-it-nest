@@ -10,7 +10,7 @@ export class PostService {
   ) {}
 
   async findAll(): Promise<Post[]> {
-    return await this.postModel.find().exec();
+    return await this.postModel.find().populate('tag').exec();
   }
 
   async findBySlug(slug: string): Promise<Post> {

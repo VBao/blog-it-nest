@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 import { Post } from 'src/post/post.schema';
+import { Tag } from 'src/tag/schema/tag.schema';
 
 @Schema({ collection: 'user' })
 export class User extends Document {
@@ -35,7 +36,8 @@ export class User extends Document {
   updatedAt: Date;
   @Prop({ default: 'Activated' })
   status: 'Activated' | 'Deactivated' | 'Deleted';
-  // followedTag: any[];
+  @Prop({ type: [Types.ObjectId], default: [], ref: 'Tag' })
+  followedTag: Tag[];
   @Prop({ type: [Types.ObjectId], default: [], ref: 'User' })
   followedUser: User[];
   @Prop({ type: [Types.ObjectId], default: [], ref: 'Post' })

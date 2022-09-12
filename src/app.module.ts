@@ -7,6 +7,7 @@ import { PostModule } from './post/post.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { ConfigService } from '@nestjs/config/dist';
+import { TagModule } from './tag/tag.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { ConfigService } from '@nestjs/config/dist';
       }),
       inject: [ConfigService],
     }),
+    TagModule,
   ],
   controllers: [AppController, PostController],
   providers: [AppService],

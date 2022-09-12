@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Date, Document, Types } from 'mongoose';
+import { Tag } from 'src/tag/schema/tag.schema';
 
 export class Comment {
   @Prop({ type: Types.ObjectId })
@@ -19,7 +20,7 @@ export class Comment {
 
 @Schema({ collection: 'post' })
 export class Post extends Document {
-  @Prop({ type: Types.ObjectId, ref: 'User' })
+  @Prop({ type: Types.ObjectId, ref: 'User', required: true })
   authorId: string;
   @Prop({ isRequired: true })
   banner: string;
@@ -27,7 +28,7 @@ export class Post extends Document {
   title: string;
   @Prop({ isRequired: true })
   content: string;
-  @Prop({ isRequired: true })
+  @Prop({ isRequired: true, unique: true })
   slug: string;
   @Prop({ type: Date, default: Date.now() })
   updatedAt: Date;
@@ -35,14 +36,14 @@ export class Post extends Document {
   createdAt: Date;
   @Prop({ isRequired: true })
   status: 'Draft' | 'Published' | 'Delete';
-  @Prop({ type: [Types.ObjectId], default: [], ref: 'Tag' })
-  tag: string[];
-  @Prop()
+  @Prop({ default: [] })
   comment: Comment[];
   @Prop({ default: 0 })
   commentCount: number;
   @Prop({ default: 0 })
   reactionCount: number;
+  @Prop({ type: [Types.ObjectId], required: true, ref: 'Tag' })
+  tag: Tag[];
   @Prop({ type: [Types.ObjectId], default: [], ref: 'User' })
   reactionList: string[]; // Array user id react to post
   @Prop({ type: [Types.ObjectId], default: [], ref: 'User' })
