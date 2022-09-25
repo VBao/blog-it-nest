@@ -1,7 +1,8 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import mongoose, { Model, MongooseError } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { CreateTagDto } from './dto/create-tag.dto';
+import { UpdateTagDto } from './dto/update-tag.dto';
 import { Tag } from './schema/tag.schema';
 
 @Injectable()
@@ -36,5 +37,21 @@ export class TagService {
         throw new HttpException(`duplicate value at: ` + duplicateValue, 400);
       }
     }
+  }
+
+  async updateTag(id: string, updateDto: UpdateTagDto): Promise<Tag> {
+    const oldTag = await this.tagModel.findById(id);
+    const updateQueryTag: mongoose.UpdateQuery<Tag> = {};
+    Object.entries(updateDto).find(([key, value]) => {
+      if (value != null) updateQueryTag[key] = value;
+    });
+    try {
+      return await this.tagModel
+        .findOneAndUpdate({ _id: id }, updateQueryTag)
+        .exec();
+    } catch (error) {
+      throw new Error('');
+    }
+    // return oldTag;
   }
 }

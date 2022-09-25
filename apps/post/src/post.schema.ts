@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Date, Document, Types } from 'mongoose';
-import { Tag } from 'src/tag/schema/tag.schema';
 
 export class Comment {
   @Prop({ type: Types.ObjectId })
@@ -20,7 +19,7 @@ export class Comment {
 
 @Schema({ collection: 'post' })
 export class Post extends Document {
-  @Prop({ type: Types.ObjectId, ref: 'User', required: true })
+  @Prop({ type: Types.ObjectId, required: true })
   authorId: string;
   @Prop({ isRequired: true })
   banner: string;
@@ -42,13 +41,13 @@ export class Post extends Document {
   commentCount: number;
   @Prop({ default: 0 })
   reactionCount: number;
-  @Prop({ type: [Types.ObjectId], required: true, ref: 'Tag' })
-  tag: Tag[];
-  @Prop({ type: [Types.ObjectId], default: [], ref: 'User' })
+  @Prop({ type: [Types.ObjectId], required: true })
+  tag: string[];
+  @Prop({ type: [Types.ObjectId], default: [] })
   reactionList: string[]; // Array user id react to post
-  @Prop({ type: [Types.ObjectId], default: [], ref: 'User' })
+  @Prop({ type: [Types.ObjectId], default: [] })
   savedByUser: string[]; // Array user id saved post to reading list
-  @Prop({ type: [Types.ObjectId], default: [], ref: 'User' })
+  @Prop({ type: [Types.ObjectId], default: [] })
   commentList: string[]; // Array user id commented to the post
 }
 

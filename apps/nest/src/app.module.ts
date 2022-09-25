@@ -1,21 +1,15 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserModule } from './user/user.module';
-import { PostController } from './post/post.controller';
-import { PostModule } from './post/post.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { ConfigService } from '@nestjs/config/dist';
-import { TagModule } from './tag/tag.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    UserModule,
-    PostModule,
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
@@ -24,9 +18,8 @@ import { TagModule } from './tag/tag.module';
       }),
       inject: [ConfigService],
     }),
-    TagModule,
   ],
-  controllers: [AppController, PostController],
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}

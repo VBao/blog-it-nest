@@ -1,7 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
-import { Post } from 'src/post/post.schema';
-import { User } from 'src/user/schema/user.schema';
 
 @Schema({ collection: 'tag' })
 export class Tag extends Document {
@@ -21,10 +19,10 @@ export class Tag extends Document {
   color: string;
   @Prop({ required: true })
   image: string;
-  @Prop({ type: [Types.ObjectId], default: [], ref: 'Post' })
-  post: Post[];
-  @Prop({ type: [Types.ObjectId], default: [], ref: 'User' })
-  moderator: User[];
+  @Prop({ type: [Types.ObjectId], default: [] })
+  post: string[];
+  @Prop({ type: [Types.ObjectId], default: [] })
+  moderator: string[];
 }
 
 export const TagSchema = SchemaFactory.createForClass(Tag);
